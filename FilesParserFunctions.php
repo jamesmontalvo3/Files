@@ -84,7 +84,7 @@ class FilesParserFunctions
 	}
 
 	static function formatWikiFile ( $file, $altText='' ) {
-		
+				
 		// if starts with "File:" strip it for file name
 		if ( preg_match( "/^File:/i", $file ) ) {
 			$fileNameOnly = substr( $file, 5 );
@@ -94,13 +94,20 @@ class FilesParserFunctions
 			$fileNameOnly = $file;
 			$fileWithPrefix = 'File:' . $file;
 		}
-		
+
 		if ( $altText == '' ) {
 			$altText = $fileNameOnly;
+		}		
+
+		if ( Title::makeTitle( NS_FILE, $file )->exists() ) {
+			
+			return "[[Media:$fileNameOnly|$altText]] <sup>&#91;[[:$fileWithPrefix|file info]]&#93;</sup>";
+		
+		}
+		else {
+			return "[[$fileWithPrefix]]";
 		}
 		
-		return "[[Media:$fileNameOnly|$altText]] <sup>&#91;[[:$fileWithPrefix|file info]]&#93;</sup>";
-
 	}
 	
 	// static function addJSandCSS () {
