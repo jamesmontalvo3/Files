@@ -1,0 +1,4 @@
+{
+	"extension-files-desc": " * Creates a parser function to create better links to files, which links directly to the file itself with an additional superscript link to the file info page.",
+	"extension-files-file-info": "file info"
+}
