@@ -32,6 +32,7 @@ $GLOBALS['wgExtensionCredits']['parserhook'][] = array(
 $dir = dirname( __FILE__ ) . '/';
 
 $GLOBALS['wgMessagesDirs']['Files'] = __DIR__ . '/i18n';
+$GLOBALS['wgExtensionMessagesFiles']['FilesMagic'] = __DIR__ . '/Files.i18n.magic.php';
 
 $GLOBALS['wgAutoloadClasses']['FilesParserFunctions'] = $dir . 'FilesParserFunctions.php';
 

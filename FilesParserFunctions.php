@@ -19,7 +19,7 @@ class FilesParserFunctions
 	static function setup ( &$parser ) {
 		
 		$parser->setFunctionHook(
-			'File', // the name of parser function 
+			'file', // the name of parser function 
 			array(
 				'FilesParserFunctions',
 				'renderFileLink'
@@ -48,12 +48,12 @@ class FilesParserFunctions
 				
 		// if starts with http(s)://
 		if ( preg_match( "/^http[s]*:\/\//i", $file ) ) {
-			return self::formatHttpFile( $file, $alt );
+			return self::formatHttpFile( $file, $altText );
 		}
 		
 		// if starts with file://
 		else if ( preg_match( "/^file:\/\//i", $file ) ) {
-			return self::formatFileSystemFile( $file, $alt );
+			return self::formatFileSystemFile( $file, $altText );
 		}
 		
 		// if starts with an interwiki prefix (not yet supported)
@@ -69,9 +69,10 @@ class FilesParserFunctions
 	
 	static function formatHttpFile ( $file, $altText='' ) {
 		if ( $altText == '' ) {
+			$maxLength = 50;
 			$altText = preg_replace( "/^http[s]*:\/\//i", "", $file );
 			if ( strlen( $altText ) > $maxLength ) {
-				$altText = substr( $altText, 0, $maxLength );
+				$altText = substr( $altText, 0, $maxLength-3 ) . '...';
 			}
 		}
 		
@@ -79,7 +80,7 @@ class FilesParserFunctions
 	}
 	
 	static function formatFileSystemFile ( $file, $altText='' ) {
-		return "<code><nowiki>$file</nowiki></code>";
+		return "<code>$file</code>";
 	}
 
 	static function formatWikiFile ( $file, $altText='' ) {
@@ -94,18 +95,12 @@ class FilesParserFunctions
 			$fileWithPrefix = 'File:' . $file;
 		}
 		
-		$mediaLink = '[[Media:' . $fileNameOnly;
-
-		if ( $altText !== '' ) {
-			$mediaLink .= '|' . $altText;
+		if ( $altText == '' ) {
+			$altText = $fileNameOnly;
 		}
 		
-		$mediaLink .= ']]';
-		
-		$fileInfoLink = ' <sup><nowiki>[</nowiki>[[:$fileWithPrefix|file info]]<nowiki>]</nowiki>';
+		return "[[Media:$fileNameOnly|$altText]] <sup>&#91;[[:$fileWithPrefix|file info]]&#93;</sup>";
 
-		return $mediaLink . $fileInfoLink;
-	
 	}
 	
 	// static function addJSandCSS () {
