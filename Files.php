@@ -32,8 +32,25 @@ $GLOBALS['wgExtensionCredits']['parserhook'][] = array(
 $dir = dirname( __FILE__ ) . '/';
 
 $GLOBALS['wgMessagesDirs']['Files'] = __DIR__ . '/i18n';
-$GLOBALS['wgExtensionMessagesFiles']['FilesMagic'] = __DIR__ . '/Files.i18n.magic.php';
+$GLOBALS['wgExtensionMessagesFiles']['FilesMagic'] = __DIR__ . '/language/FilesMagic.php';
 
-$GLOBALS['wgAutoloadClasses']['FilesParserFunctions'] = $dir . 'FilesParserFunctions.php';
+$GLOBALS['wgAutoloadClasses']['ExtensionFiles\Hooks'] = __DIR__ . '/includes/Hooks.php';
+$GLOBALS['wgAutoloadClasses']['ExtensionFiles\FileParserFunction'] = __DIR__ . '/includes/FileParserFunction.php';
 
-$GLOBALS['wgHooks']['ParserFirstCallInit'][] = 'FilesParserFunctions::setup';
+$GLOBALS['wgHooks']['ParserFirstCallInit'][] = 'ExtensionFiles\Hooks::setupParserFunctions';
+$GLOBALS['wgHooks']['BeforePageDisplay'][] = 'ExtensionFiles\Hooks::onBeforePageDisplay';
+
+$ExtensionFilesResourceTemplate = array(
+	'localBasePath' => __DIR__ . '/modules',
+	'remoteExtPath' => 'Files/modules',
+);
+
+$GLOBALS['wgResourceModules'] += array(
+
+	'ext.files.wikieditorbuttons' => $ExtensionFilesResourceTemplate + array(
+		// 'styles' => 'wikieditorbuttons/main.css',
+		'scripts' => 'wikieditorbuttons/main.js',
+		'dependencies' => array( 'mediawiki.Uri' ),
+	),
+
+);

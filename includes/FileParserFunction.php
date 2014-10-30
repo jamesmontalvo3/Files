@@ -13,24 +13,9 @@
  * @licence GNU GPL v3+
  */
 
-class FilesParserFunctions
-{
+namespace ExtensionFiles;
 
-	static function setup ( &$parser ) {
-		
-		$parser->setFunctionHook(
-			'file', // the name of parser function 
-			array(
-				'FilesParserFunctions',
-				'renderFileLink'
-			),
-			SFH_OBJECT_ARGS
-		);
-
-		return true;
-		
-	}
-	
+class FileParserFunction {
 
 	static function renderFileLink ( &$parser, $frame, $args ) {
 
@@ -99,7 +84,7 @@ class FilesParserFunctions
 			$altText = $fileNameOnly;
 		}		
 
-		if ( Title::makeTitle( NS_FILE, $file )->exists() ) {
+		if ( \Title::makeTitle( NS_FILE, $fileNameOnly )->exists() ) {
 			
 			return "[[Media:$fileNameOnly|$altText]] <sup>&#91;[[:$fileWithPrefix|file info]]&#93;</sup>";
 		

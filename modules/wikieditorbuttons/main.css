@@ -1,0 +1,4 @@
+/* Put any CSS your extension needs here */
+.somethings-which-are-fake{
+	background-image: url('file-icon.png');
+}
